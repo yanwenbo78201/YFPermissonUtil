@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'YFPermissonUtil_Example' do
+  pod 'YFPermissonUtil', :path => '../'
+
+  target 'YFPermissonUtil_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
