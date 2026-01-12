@@ -1,0 +1,6 @@
+framework module YFPermissonUtil {
+  umbrella header "YFPermissonUtil-umbrella.h"
+
+  export *
+  module * { export * }
+}

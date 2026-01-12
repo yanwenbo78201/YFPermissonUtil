@@ -1,0 +1,16 @@
+PODS:
+  - YFPermissonUtil (0.1.0)
+
+DEPENDENCIES:
+  - YFPermissonUtil (from `../`)
+
+EXTERNAL SOURCES:
+  YFPermissonUtil:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  YFPermissonUtil: b5a39f89ae2a41e578eb7989cf02491db0cbd900
+
+PODFILE CHECKSUM: 49b0cd10b848e3f4504eac84f37cb0fb01a9aa69
+
+COCOAPODS: 1.16.2
