@@ -1,5 +1,4 @@
 import XCTest
-import YFPermissonUtil
 
 class Tests: XCTestCase {
     

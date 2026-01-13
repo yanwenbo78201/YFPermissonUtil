@@ -18,17 +18,22 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+在 Swift 项目中使用：
+import YFPermissonUtillet cameraUtil = YFCameraUtil.sharedcameraUtil.requestCameraPermission { result in    print(result.result)}
+在 Objective-C 项目中使用：
+;
+#import <YFPermissonUtil/YFPermissonUtil-Swift.h>YFCameraUtil *cameraUtil = [YFCameraUtil shared];[cameraUtil requestCameraPermissionWithHandler:^(CameraResult * _Nonnull result) {    NSLog(@"Result: %d", result.result);}];
                        DESC
 
-  s.homepage         = 'https://github.com/Computer/YFPermissonUtil'
+  s.homepage         = 'https://github.com/yanwenbo78201/YFPermissonUtil'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Computer' => 'yanwenbo@Computer.com' }
-  s.source           = { :git => 'https://github.com/Computer/YFPermissonUtil.git', :tag => s.version.to_s }
+  s.author           = { 'Computer' => 'yanwenbo78201@gmail.com' }
+  s.source           = { :git => 'https://github.com/yanwenbo78201/YFPermissonUtil.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '15.0'
+  s.swift_version = '5.0'
 
   s.source_files = 'YFPermissonUtil/Classes/**/*'
   
@@ -37,6 +42,6 @@ TODO: Add long description of the pod here.
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'UIKit', 'Foundation', 'Contacts', 'AddressBook', 'AVFoundation', 'CoreLocation', 'AppTrackingTransparency', 'AdSupport'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
