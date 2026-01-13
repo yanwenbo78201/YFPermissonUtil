@@ -91,7 +91,7 @@ import CoreLocation
     }
     
     // MARK: - CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    @objc public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         if longitude == "" && latitude == ""{
             longitude =  "\(location.coordinate.longitude)"
@@ -105,7 +105,7 @@ import CoreLocation
         // Stop updates after getting location if needed, depends on use case. requestLocation gets one update.
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    @objc public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location request failed: \(error.localizedDescription)")
         // Handle failure based on isRequired
         if isRequired {
@@ -133,7 +133,7 @@ import CoreLocation
         //handler = nil
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    @objc public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         // This is called when the user changes authorization status
         let status = CLLocationManager.authorizationStatus()
         switch status {
