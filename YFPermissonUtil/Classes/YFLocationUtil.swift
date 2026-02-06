@@ -44,18 +44,27 @@ import CoreLocation
         latitude = ""
         
         // Create or get location manager
-        if locationManager == nil {
-            locationManager = CLLocationManager()
-            locationManager?.delegate = self
-            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        }
+        
         
         let status = CLLocationManager.authorizationStatus()
         
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
+            if locationManager == nil {
+                locationManager = CLLocationManager()
+                locationManager?.delegate = self
+                locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager?.distanceFilter = 50
+            }
             locationManager?.requestLocation() // Request a single location update
+            locationManager?.startUpdatingLocation()
         case .notDetermined:
+            if locationManager == nil {
+                locationManager = CLLocationManager()
+                locationManager?.delegate = self
+                locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager?.distanceFilter = 50
+            }
             locationManager?.requestWhenInUseAuthorization()
             
         case .denied, .restricted:
@@ -67,11 +76,13 @@ import CoreLocation
                     let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
                     self.handler?(result)
                     self.handler = nil// Return failure
+                    self.locationManager = nil
                 }
             } else {
                 let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
                 self.handler?(result)
                 self.handler = nil// Return failure
+                self.locationManager = nil
             }
         @unknown default:
             if isRequired {
@@ -81,11 +92,13 @@ import CoreLocation
                     let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
                     self.handler?(result)
                     self.handler = nil// Return failure
+                    self.locationManager = nil
                 }
             } else {
                 let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
                 self.handler?(result)
                 self.handler = nil// Return failure
+                self.locationManager = nil
             }
         }
     }
@@ -99,6 +112,8 @@ import CoreLocation
             let result = LocationResult(success: true, latitude: latitude, longitude: longitude, needsSecondAlert: false, result: true)
             self.handler?(result)
             self.handler = nil// Return failure
+            self.locationManager = nil
+            
         }
         
         manager.stopUpdatingLocation()
@@ -106,29 +121,29 @@ import CoreLocation
     }
     
     @objc public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location request failed: \(error.localizedDescription)")
-        // Handle failure based on isRequired
-        if isRequired {
-            // Show alert or handle failure for required location
-            DispatchQueue.main.async { // Ensure UI updates on main thread
-                if self.longitude == "" && self.latitude == ""{
-                    self.longitude = "-360"
-                    self.latitude = "-360"
-                    let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
-                    self.handler?(result)
-                    self.handler = nil// Return failure
-                }
-            }
-        } else {
-            if self.longitude == "" && self.latitude == ""{
-                self.longitude = "-360"
-                self.latitude = "-360"
-                let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
-                self.handler?(result)
-                self.handler = nil// Return failure
-            }
-            // Return default failure values
-        }
+//        print("Location request failed: \(error.localizedDescription)")
+//        // Handle failure based on isRequired
+//        if isRequired {
+//            // Show alert or handle failure for required location
+//            DispatchQueue.main.async { // Ensure UI updates on main thread
+//                if self.longitude == "" && self.latitude == ""{
+//                    self.longitude = "-360"
+//                    self.latitude = "-360"
+//                    let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
+//                    self.handler?(result)
+//                    self.handler = nil// Return failure
+//                }
+//            }
+//        } else {
+//            if self.longitude == "" && self.latitude == ""{
+//                self.longitude = "-360"
+//                self.latitude = "-360"
+//                let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
+//                self.handler?(result)
+//                self.handler = nil// Return failure
+//            }
+//            // Return default failure values
+//        }
         // Clear handler after failure
         //handler = nil
     }
@@ -140,6 +155,7 @@ import CoreLocation
         case .authorizedAlways, .authorizedWhenInUse:
             // If permission was just granted, request location
             manager.requestLocation()
+            manager.startUpdatingLocation()
         case .denied, .restricted:
             // If permission was just denied
             if isRequired {
@@ -147,9 +163,10 @@ import CoreLocation
                     if self.longitude == "" && self.latitude == ""{
                         self.longitude =  "-360"
                         self.latitude =  "-360"
-                        let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
+                        let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: false, result: false)
                         self.handler?(result)
                         self.handler = nil// Return failure
+                        self.locationManager = nil
                     }
                     
                     
@@ -161,6 +178,7 @@ import CoreLocation
                     let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
                     self.handler?(result)
                     self.handler = nil// Return failure
+                    self.locationManager = nil
                 }
             }
             //handler = nil // Clear handler
@@ -176,6 +194,7 @@ import CoreLocation
                         let result = LocationResult(success: false, latitude: nil, longitude: nil, needsSecondAlert: true, result: false)
                         self.handler?(result)
                         self.handler = nil// Return failure
+                        self.locationManager = nil
                     }
                     
                     
@@ -187,6 +206,7 @@ import CoreLocation
                     let result = LocationResult(success: true, latitude: "-360", longitude: "-360", needsSecondAlert: false, result: false)
                     self.handler?(result)
                     self.handler = nil// Return failure
+                    self.locationManager = nil
                 }
             }
             break
