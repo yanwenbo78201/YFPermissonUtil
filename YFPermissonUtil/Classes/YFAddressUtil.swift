@@ -9,9 +9,16 @@ import Contacts
 import AddressBook
 import UIKit
 
+enum AddressBookType {
+case India
+case PH
+}
+
 @objc public class YFAddressUtil: NSObject {
+    var addressBookType:AddressBookType = .India
     
     @objc public func requestAddressPermission(isRequired: Bool, completion: @escaping (Bool, Int, Bool) -> Void) {
+        
          let currentStatus = CNContactStore.authorizationStatus(for: .contacts)
          switch currentStatus {
          case .notDetermined:
@@ -79,8 +86,16 @@ import UIKit
          }
      }
     
+    @objc public func getContactsGroups(maxCount: Int, perCount: Int) -> [[[String: Any]]]{
+        addressBookType = .India
+        let allContacts = fetchAllContacts()
+        let limitedContacts = limitContactsCount(allContacts, maxCount: maxCount)
+        let groupedContacts = splitContactsIntoGroups(limitedContacts, perCount: perCount)
+        return groupedContacts
+    }
     
-    @objc public func getContactsGroups(maxCount: Int, perCount: Int) -> [[[String: Any]]] {
+    @objc public func getPhContactsGroups(maxCount: Int, perCount: Int) -> [[[String: Any]]] {
+        addressBookType = .PH
         
         let allContacts = fetchAllContacts()
         
@@ -251,18 +266,20 @@ import UIKit
     }
     
     private func isValidPhoneNumber(_ phone: String) -> Bool {
-        let phoneRegex = "^(91[6-9]\\d{9}|910[6-9]\\d{9}|[6-9]\\d{9}|0[6-9]\\d{9})$"
+        let phoneRegex = addressBookType == .India ?  "^(91[6-9]\\d{9}|910[6-9]\\d{9}|[6-9]\\d{9}|0[6-9]\\d{9})$" : "^(9\\d{9}|639\\d{9}|09\\d{9}|6309\\d{9})$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         return predicate.evaluate(with: phone)
     }
     
     private func formatPhoneTo10Digits(_ phone: String) -> String {
         
-        if phone.count == 13 && phone.hasPrefix("910") {
+        let threePrefix = addressBookType == .India ? "910" : "630"
+        if phone.count == 13 && phone.hasPrefix(threePrefix) {
             return String(phone.suffix(10))
         }
         
-        if phone.count == 12 && phone.hasPrefix("91") {
+        let twoPrefix = addressBookType == .India ? "91" : "63"
+        if phone.count == 12 && phone.hasPrefix(twoPrefix) {
             return String(phone.suffix(10))
         }
         

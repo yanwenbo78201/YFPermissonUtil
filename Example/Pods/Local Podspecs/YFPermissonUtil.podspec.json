@@ -1,6 +1,6 @@
 {
   "name": "YFPermissonUtil",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "summary": "A short description of YFPermissonUtil.",
   "description": "在 Swift 项目中使用：\nimport YFPermissonUtillet cameraUtil = YFCameraUtil.sharedcameraUtil.requestCameraPermission { result in    print(result.result)}\n在 Objective-C 项目中使用：\n;\n#import <YFPermissonUtil/YFPermissonUtil-Swift.h>YFCameraUtil *cameraUtil = [YFCameraUtil shared];[cameraUtil requestCameraPermissionWithHandler:^(CameraResult * _Nonnull result) {    NSLog(@\"Result: %d\", result.result);}];",
   "homepage": "https://github.com/yanwenbo78201/YFPermissonUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/yanwenbo78201/YFPermissonUtil.git",
-    "tag": "0.1.0"
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "15.0"

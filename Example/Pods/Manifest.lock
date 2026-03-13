@@ -1,5 +1,5 @@
 PODS:
-  - YFPermissonUtil (0.1.0)
+  - YFPermissonUtil (0.1.2)
 
 DEPENDENCIES:
   - YFPermissonUtil (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  YFPermissonUtil: 7d777c006358f23e06c169b0e1733438535eaa24
+  YFPermissonUtil: c82b1e6a22170314cc19067f1b27d51678407cfd
 
 PODFILE CHECKSUM: 49b0cd10b848e3f4504eac84f37cb0fb01a9aa69
 
